@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "557525886863",
+    "project_id": "networkinglab9-3f213",
+    "storage_bucket": "networkinglab9-3f213.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:557525886863:android:fec8818948aa6680a90dfa",
+        "android_client_info": {
+          "package_name": "com.artest.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "557525886863-k801gqbqi29aghsffv4s3gd7eq3lej0k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.artest.chatapp",
+            "certificate_hash": "c72f85a1eaf05303d4dd1c2070488e4ed2e808eb"
+          }
+        },
+        {
+          "client_id": "557525886863-s0pinfr812sao0093krqs36koq1ve2s1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9By0jLiQS8jIysB86LM7dgyjHYuin-l0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "557525886863-s0pinfr812sao0093krqs36koq1ve2s1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
