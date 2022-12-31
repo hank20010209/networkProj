@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/controlBar"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_weight="1"
+        android:scaleType="fitStart" >
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:layout_gravity="center">
+            <Button
+                android:id="@+id/textstart"
+                android:layout_width = "wrap_content"
+                android:layout_height = "wrap_content"
+                android:layout_weight=".30"
+                android:background="@color/white"
+                android:drawableTop="@drawable/shareping"
+                android:text="Press To start"/>
+
+        </FrameLayout>
+
+    </LinearLayout>
+</LinearLayout>

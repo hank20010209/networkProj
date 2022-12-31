@@ -1,204 +1,61 @@
 package com.artest.chatapp;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.util.Base64;
-import android.view.LayoutInflater;
+import android.app.Activity;
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class MessageAdapter extends RecyclerView.Adapter {
-
-    private static final int TYPE_MESSAGE_SENT = 0;
-    private static final int TYPE_MESSAGE_RECEIVED = 1;
-    private static final int TYPE_IMAGE_SENT = 2;
-    private static final int TYPE_IMAGE_RECEIVED = 3;
-
-    private LayoutInflater inflater;
-    private List<JSONObject> messages = new ArrayList<>();
-
-    public MessageAdapter (LayoutInflater inflater) {
-        this.inflater = inflater;
-    }
-
-    private class SentMessageHolder extends RecyclerView.ViewHolder {
-
-        TextView messageTxt;
-
-        public SentMessageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            messageTxt = itemView.findViewById(R.id.sentTxt);
-        }
-    }
-
-    private class SentImageHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-
-        public SentImageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            imageView = itemView.findViewById(R.id.imageView);
-        }
-    }
-
-    private class ReceivedMessageHolder extends RecyclerView.ViewHolder {
-
-        TextView nameTxt, messageTxt;
-
-        public ReceivedMessageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            nameTxt = itemView.findViewById(R.id.nameTxt);
-            messageTxt = itemView.findViewById(R.id.receivedTxt);
-        }
-    }
-
-    private class ReceivedImageHolder extends RecyclerView.ViewHolder {
-
-        ImageView imageView;
-        TextView nameTxt;
-
-        public ReceivedImageHolder(@NonNull View itemView) {
-            super(itemView);
-
-            imageView = itemView.findViewById(R.id.imageView);
-            nameTxt = itemView.findViewById(R.id.nameTxt);
-
-        }
+public class MessageAdapter extends ArrayAdapter<MessageFormat> {
+    public MessageAdapter(Context context, int resource, List<MessageFormat> objects) {
+        super(context, resource, objects);
     }
 
     @Override
-    public int getItemViewType(int position) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        Log.i(MainActivity.TAG, "getView:");
 
-        JSONObject message = messages.get(position);
+        MessageFormat message = getItem(position);
 
-        try {
-            if (message.getBoolean("isSent")) {
+        if(TextUtils.isEmpty(message.getMessage())){
 
-                if (message.has("message"))
-                    return TYPE_MESSAGE_SENT;
-                else
-                    return TYPE_IMAGE_SENT;
 
-            } else {
+            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.user_connected, parent, false);
 
-                if (message.has("message"))
-                    return TYPE_MESSAGE_RECEIVED;
-                else
-                    return TYPE_IMAGE_RECEIVED;
+            TextView messageText = convertView.findViewById(R.id.message_body);
 
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+            Log.i(MainActivity.TAG, "getView: is empty ");
+            String userConnected = message.getUsername();
+            messageText.setText(userConnected);
+
+        }else if(message.getUniqueId().equals(MainActivity.uniqueId)){
+            Log.i(MainActivity.TAG, "getView: " + message.getUniqueId() + " " + MainActivity.uniqueId);
+
+
+            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.my_message, parent, false);
+            TextView messageText = convertView.findViewById(R.id.message_body);
+            messageText.setText(message.getMessage());
+
+        }else {
+            Log.i(MainActivity.TAG, "getView: is not empty");
+
+            convertView = ((Activity) getContext()).getLayoutInflater().inflate(R.layout.their_message, parent, false);
+
+            TextView messageText = convertView.findViewById(R.id.message_body);
+            TextView usernameText = (TextView) convertView.findViewById(R.id.name);
+
+            messageText.setVisibility(View.VISIBLE);
+            usernameText.setVisibility(View.VISIBLE);
+
+            messageText.setText(message.getMessage());
+            usernameText.setText(message.getUsername());
         }
 
-        return -1;
+        return convertView;
     }
-
-    @NonNull
-    @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view;
-
-        switch (viewType) {
-            case TYPE_MESSAGE_SENT:
-                view = inflater.inflate(R.layout.item_sent_message, parent, false);
-                return new SentMessageHolder(view);
-            case TYPE_MESSAGE_RECEIVED:
-
-                view = inflater.inflate(R.layout.item_received_message, parent, false);
-                return new ReceivedMessageHolder(view);
-
-            case TYPE_IMAGE_SENT:
-
-                view = inflater.inflate(R.layout.item_sent_image, parent, false);
-                return new SentImageHolder(view);
-
-            case TYPE_IMAGE_RECEIVED:
-
-                view = inflater.inflate(R.layout.item_received_photo, parent, false);
-                return new ReceivedImageHolder(view);
-
-        }
-
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
-        JSONObject message = messages.get(position);
-
-        try {
-            if (message.getBoolean("isSent")) {
-
-                if (message.has("message")) {
-
-                    SentMessageHolder messageHolder = (SentMessageHolder) holder;
-                    messageHolder.messageTxt.setText(message.getString("message"));
-
-                } else {
-
-                    SentImageHolder imageHolder = (SentImageHolder) holder;
-                    Bitmap bitmap = getBitmapFromString(message.getString("image"));
-
-                    imageHolder.imageView.setImageBitmap(bitmap);
-
-                }
-
-            } else {
-
-                if (message.has("message")) {
-
-                    ReceivedMessageHolder messageHolder = (ReceivedMessageHolder) holder;
-                    messageHolder.nameTxt.setText(message.getString("name"));
-                    messageHolder.messageTxt.setText(message.getString("message"));
-
-                } else {
-
-                    ReceivedImageHolder imageHolder = (ReceivedImageHolder) holder;
-                    imageHolder.nameTxt.setText(message.getString("name"));
-
-                    Bitmap bitmap = getBitmapFromString(message.getString("image"));
-                    imageHolder.imageView.setImageBitmap(bitmap);
-
-                }
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private Bitmap getBitmapFromString(String image) {
-
-        byte[] bytes = Base64.decode(image, Base64.DEFAULT);
-        return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-    }
-
-    @Override
-    public int getItemCount() {
-        return messages.size();
-    }
-
-    public void addItem (JSONObject jsonObject) {
-        messages.add(jsonObject);
-        notifyDataSetChanged();
-    }
-
 }

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Shareping</string>
+    <string name="facebook_app_id">3423708277910249</string>
+    <string name="fb_login_protocol_scheme">fb3423708277910249</string>
+    <string name="facebook_client_token">687be9b6dfb56298b3d1bbdbc82e4915</string>
+
+
 </resources>

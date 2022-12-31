@@ -2,6 +2,7 @@ package com.artest.chatapp;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -29,7 +30,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v){
-                startActivity(new Intent(Map.this, Login.class));
+                startActivity(new Intent(Map.this, UserInfo.class));
             }
         });
         friendbutton.setOnClickListener(new View.OnClickListener() {
