@@ -2,6 +2,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <ImageButton
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_gravity = "left"
+        android:src="@drawable/facebook"
+        >
+    </ImageButton>
+    <TextView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width = "wrap_content"
+        android:layout_height = "wrap_content"
+        android:layout_gravity = "center"
+        android:layout_marginTop="18dp"
+        android:textColor="@color/black"
+        android:text="優惠趣">
+    </TextView>
+
     <LinearLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/controlBar"
@@ -9,120 +26,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="bottom">
-        <FrameLayout
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_gravity="center">
-            <ImageButton
-                android:id="@+id/goodbutton"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_star_border_24"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "center"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/black"
-                android:text="優惠趣"
-                />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_gravity="center">
-            <ImageButton
-                android:id="@+id/friendbutton"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_people_alt_24"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "center"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/black"
-                android:text="好友"
-                />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_gravity="center">
-            <ImageButton
-                android:id="@+id/sharpingbutton"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_location_on_24"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "center"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/black"
-                android:text="拚單去"
-                />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_gravity="center">
-            <ImageButton
-                android:id="@+id/noticebutton"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_notifications_24"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "center"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/black"
-                android:text="通知"
-                />
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width = "wrap_content"
-            android:layout_height = "wrap_content"
-            android:layout_marginLeft="28dp"
-            android:layout_gravity="center">
-            <ImageButton
-                android:id="@+id/infobutton"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:layout_marginBottom="15dp"
-                android:padding="10dp"
-                android:background="@color/white"
-                android:src="@drawable/ic_baseline_person_24"/>
-            <TextView
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_gravity = "center"
-                android:layout_marginTop="18dp"
-                android:textColor="@color/black"
-                android:text="我的"
-                />
-        </FrameLayout>
+
     </LinearLayout>
 </LinearLayout>

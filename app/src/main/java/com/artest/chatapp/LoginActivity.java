@@ -156,6 +156,8 @@ public class LoginActivity extends AppCompatActivity {
                                         UserDetails.username = user;
                                         UserDetails.password = pass;
                                         //login success, into map diagram
+                                        Intent ii = new Intent(LoginActivity.this, AddUserActivity.class);
+                                        ii.putExtra("KEY", user);
                                         startActivity(new Intent(LoginActivity.this, Map.class));
                                     }
                                     else{

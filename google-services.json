@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "557525886863",
-    "project_id": "networkinglab9-3f213",
-    "storage_bucket": "networkinglab9-3f213.appspot.com"
+    "project_number": "100419415089",
+    "firebase_url": "https://shareping-cloud-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "shareping-cloud",
+    "storage_bucket": "shareping-cloud.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:557525886863:android:fec8818948aa6680a90dfa",
+        "mobilesdk_app_id": "1:100419415089:android:a57d8bb9c9014560177910",
         "android_client_info": {
           "package_name": "com.artest.chatapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "557525886863-k801gqbqi29aghsffv4s3gd7eq3lej0k.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.artest.chatapp",
-            "certificate_hash": "c72f85a1eaf05303d4dd1c2070488e4ed2e808eb"
-          }
-        },
-        {
-          "client_id": "557525886863-s0pinfr812sao0093krqs36koq1ve2s1.apps.googleusercontent.com",
+          "client_id": "100419415089-inrbigfu4551ldd2cr974o24fd659aa3.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD9By0jLiQS8jIysB86LM7dgyjHYuin-l0"
+          "current_key": "AIzaSyCPHTqTVb4t6KqZ2XwJmdelZ-Mklx2Uaak"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "557525886863-s0pinfr812sao0093krqs36koq1ve2s1.apps.googleusercontent.com",
+              "client_id": "100419415089-inrbigfu4551ldd2cr974o24fd659aa3.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

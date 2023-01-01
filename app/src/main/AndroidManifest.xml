@@ -40,7 +40,15 @@
             android:exported="true">
         </activity>
         <activity
+            android:name=".SharepingActivity"
+            android:exported="true">
+        </activity>
+        <activity
             android:name=".LoginActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".AddUserActivity"
             android:exported="true">
         </activity>
         <activity

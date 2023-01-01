@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private Socket mSocket;
     {
         try {
-            mSocket = IO.socket("http://10.10.10.141:5000");
+            mSocket = IO.socket("https://networkingfinal.azurewebsites.net/");
         } catch (URISyntaxException e) {
             System.out.println("Can't Not Connecting to Server");
         }
@@ -87,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         if(savedInstanceState != null){
             hasConnection = savedInstanceState.getBoolean("hasConnection");
         }
+
+
 
         if(hasConnection){
 
