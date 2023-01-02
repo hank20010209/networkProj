@@ -37,12 +37,11 @@ import javax.annotation.Nonnull;
 
 public class Map extends AppCompatActivity implements OnMapReadyCallback {
     ImageButton infobutton, friendbutton, sharpingbutton;
-    private GoogleMap mMap;
+    static GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         infobutton = (ImageButton)findViewById(R.id.infobutton);
@@ -88,6 +87,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
         //FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://shareping-cloud-default-rtdb.asia-southeast1.firebasedatabase.app");
         DatabaseReference spotRef = database.getReference().child("map").child("spot");
@@ -116,15 +116,13 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
 
-
-
 //        mDatabase =
         // Add a marker in Sydney and move the camera
-        //LatLng sydney = new LatLng(0.9629492690286661, 39.80342468036934);
-
+//        LatLng mylocation = new LatLng(SharepingActivity.latitude, SharepingActivity.longitude);
+//        System.out.println("Location " + SharepingActivity.latitude + " " + SharepingActivity.longitude);
 //        mMap.addMarker(new MarkerOptions()
-//                .position(sydney)
-//                .title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//                .position(mylocation)
+//                .title("mylocation"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
     }
 }
