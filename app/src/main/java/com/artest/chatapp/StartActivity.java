@@ -12,12 +12,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class StartActivity extends AppCompatActivity {
-    Button textstart;
+    TextView textstart;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_startup);
-        textstart = (Button) findViewById(R.id.textstart);
+        textstart =  findViewById(R.id.textstart);
 
         textstart.setOnClickListener(new View.OnClickListener() {
             @Override

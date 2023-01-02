@@ -1,31 +1,32 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/controlBar"
-        android:layout_gravity="center"
-        android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background1"
+    tools:context=".StartActivity"
+    >
+
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:layout_weight="1"
-        android:scaleType="fitStart" >
-        <FrameLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_gravity="center">
-            <Button
-                android:id="@+id/textstart"
-                android:layout_width = "wrap_content"
-                android:layout_height = "wrap_content"
-                android:layout_weight=".30"
-                android:background="@color/white"
-                android:drawableTop="@drawable/shareping"
-                android:text="Press To start"/>
+        android:layout_marginTop="70dp"
+        android:id="@+id/title"
+        android:layout_gravity="center"
+        android:src="@drawable/shareping"/>
 
-        </FrameLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title"
+        android:id="@+id/textstart"
+        android:text="Tap To Start It"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:layout_margin="50dp"
+        android:gravity="center"/>
 
-    </LinearLayout>
-</LinearLayout>
+
+</RelativeLayout>

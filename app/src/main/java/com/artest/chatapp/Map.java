@@ -21,8 +21,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.GoogleMap.OnMarkerClickListener;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import javax.annotation.Nonnull;
 
 
-public class Map extends AppCompatActivity implements OnMapReadyCallback {
+public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener{
     ImageButton infobutton, friendbutton, sharpingbutton;
     static GoogleMap mMap;
 
@@ -87,7 +90,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        googleMap.setOnMarkerClickListener(this);
         //FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://shareping-cloud-default-rtdb.asia-southeast1.firebasedatabase.app");
         DatabaseReference spotRef = database.getReference().child("map").child("spot");
@@ -105,7 +108,10 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
 
                         //Display spot on map
                         LatLng spot = new LatLng(lat, lng);
-                        mMap.addMarker(new MarkerOptions().position(spot).title(title));
+                        MarkerOptions marker = new MarkerOptions().position(spot).title(title);
+                        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
+                        mMap.addMarker(marker);
+
                         mMap.moveCamera(CameraUpdateFactory.newLatLng(spot));
                     }
                     Log.d("firebase", String.valueOf(task.getResult().getValue()));
@@ -124,5 +130,13 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback {
 //                .position(mylocation)
 //                .title("mylocation"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
+
+    }
+
+    public boolean onMarkerClick(final Marker marker)
+    {
+        startActivity(new Intent(Map.this, ItemActivity.class));
+        System.out.println("The Mark on Click");
+        return false;
     }
 }
