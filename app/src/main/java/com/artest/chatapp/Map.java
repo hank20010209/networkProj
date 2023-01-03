@@ -1,6 +1,7 @@
 package com.artest.chatapp;
-
 import android.content.Intent;
+import java.lang.Object.*;
+import java.net.URLConnection.*;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Message;
@@ -8,6 +9,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.view.ViewGroup;
+
+import java.util.HashMap;
 import java.util.concurrent.FutureTask;
 import java.lang.annotation.ElementType;
 import java.util.Objects;
@@ -30,17 +33,43 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import javax.annotation.Nonnull;
 
+import org.json.JSONObject;
+
+import javax.annotation.Nonnull;
 
 public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener{
     ImageButton infobutton, friendbutton, sharpingbutton;
     static GoogleMap mMap;
+    static StringBuilder returnObj;
+    static int objDone;
+    static public class MarkerPkg {
+        String id;
+        String key;
+        String title;
+        Double lat;
+        Double lng;
+        Integer num_of_participants;
+        Long time;
+
+        public MarkerPkg(String id, String key, String title, Double lat, Double lng, Integer num_of_participants, Long time){
+            this.id = id;
+            this.key = key;
+            this.title = title;
+            this.lat = lat;
+            this.lng = lng;
+            this.num_of_participants = num_of_participants;
+            this.time = time;
+        }
+    }
+    static HashMap<String, MarkerPkg> markers = new HashMap<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,36 +120,53 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMark
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
-        //FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://shareping-cloud-default-rtdb.asia-southeast1.firebasedatabase.app");
         DatabaseReference spotRef = database.getReference().child("map").child("spot");
-        System.out.println("This is Data" + spotRef);
-        System.out.println("This is Data" + database);
-        spotRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+
+        ChildEventListener childEventListener = new ChildEventListener() {
             @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (DataSnapshot ds : task.getResult().getChildren()) {
-                        double lat = ds.child("lat").getValue(Double.class);
-                        double lng = ds.child("lng").getValue(Double.class);
-                        String title = ds.child("title").getValue(String.class);
-                        Long time = ds.child("time").getValue(Long.class);
+            public void onChildAdded(DataSnapshot dataSnapshot, String previousChildName) {
+                String key = dataSnapshot.getKey();
+                String title = dataSnapshot.child("title").getValue(String.class);
+                Double lat = dataSnapshot.child("lat").getValue(Double.class);
+                Double lng = dataSnapshot.child("lng").getValue(Double.class);
+                Integer num_of_participants = dataSnapshot.child("num_of_participants").getValue(Integer.class);
+                Long time = dataSnapshot.child("time").getValue(Long.class);
 
-                        //Display spot on map
-                        LatLng spot = new LatLng(lat, lng);
-                        MarkerOptions marker = new MarkerOptions().position(spot).title(title);
-                        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
-                        mMap.addMarker(marker);
+                LatLng spot = new LatLng(lat, lng);
+                MarkerOptions markerOptions = new MarkerOptions().position(spot).title(title);
+                markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
+                Marker marker = mMap.addMarker(markerOptions);
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLng(spot));
-                    }
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                }
-                else {
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
+                mMap.moveCamera(CameraUpdateFactory.newLatLng(spot));
+
+                MarkerPkg markerPkg = new MarkerPkg(marker.getId(), key, title, lat, lng, num_of_participants, time);
+                markers.put(marker.getId(), markerPkg);
+
+                Log.d("firebase", "onChildAdded:" + dataSnapshot.toString());
             }
-        });
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("firebase", "onChildChanged:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                Log.d("firebase", "onChildRemoved:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String previousChildName) {
+                Log.d("firebase", "onChildMoved:" + dataSnapshot.getKey());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("firebase", "postComments:onCancelled", databaseError.toException());
+            }
+        };
+        spotRef.addChildEventListener(childEventListener);
 
 //        mDatabase =
         // Add a marker in Sydney and move the camera
@@ -135,7 +181,11 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMark
 
     public boolean onMarkerClick(final Marker marker)
     {
-        startActivity(new Intent(Map.this, ItemActivity.class));
+        MarkerPkg markerPkg = markers.get(marker.getId());
+        returnObj = new StringBuilder();
+        Intent intent = new Intent(Map.this, ItemActivity.class);
+        intent.putExtra("key", markerPkg.key);
+        startActivity(intent);
         System.out.println("The Mark on Click");
         return false;
     }

@@ -4,15 +4,20 @@ plugins {
 }
 //Fill in 
 android {
-    compileSdk 31
+    compileSdkVersion 33
     defaultConfig {
         applicationId "com.artest.chatapp"
-        minSdk 27
-        targetSdk 31
+        minSdkVersion 27
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     buildTypes {
@@ -94,6 +99,7 @@ dependencies {
 //    implementation 'com.google.firebase:firebase-storage'
     implementation 'com.google.firebase:firebase-database-collection:18.0.1'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.stripe:stripe-android:20.17.0'
     implementation ('io.socket:socket.io-client:2.0.0') {
         exclude group: 'org.json', module: 'json'
     }

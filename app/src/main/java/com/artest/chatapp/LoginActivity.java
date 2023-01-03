@@ -37,8 +37,16 @@ import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.tasks.Task;
+import com.stripe.android.exception.CardException;
+
 public class LoginActivity extends AppCompatActivity {
     ImageView fbBtn;
+    ImageView googleBtn;
     TextView username;
     TextView password;
     TextView register;
@@ -52,6 +60,38 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         fbBtn = (ImageView)findViewById(R.id.fb_btn);
+        googleBtn = (ImageView)findViewById(R.id.google_btn);
+
+        googleBtn = (ImageView)findViewById(R.id.google_btn);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        GoogleSignInClient mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        googleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signIn();
+            }
+            private void signIn(){
+                Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, 1);
+            }
+            private void onActivityResult(int requestCode, int resultCode, Intent data) {
+                LoginActivity.super.onActivityResult(requestCode, resultCode, data);
+                if(requestCode==1){
+                    Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+                    handleSignInResult(task);
+                }
+            };
+            private void handleSignInResult(Task<GoogleSignInAccount> completedTask){
+                try{
+                    GoogleSignInAccount account = completedTask.getResult(CardException.class);
+                } catch (CardException e){
+
+                }
+            }
+        });
 
 
         callbackManager = CallbackManager.Factory.create();
@@ -62,6 +102,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //login in FB
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
             }
         });
 
@@ -82,13 +123,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(FacebookException exception) {
                 // App code
-            }
-        });
-
-        fbBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v){
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile"));
             }
         });
 

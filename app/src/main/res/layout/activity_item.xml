@@ -29,13 +29,13 @@
         android:layout_margin="10dp"
         android:gravity="center"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/titleinput"
+        android:id="@+id/title"
         android:layout_below="@id/thetext"
         android:background="#30ffffff"
-        android:hint="拚單標題"
+        android:hint="拚單描述"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:layout_margin="15dp"
@@ -43,13 +43,13 @@
         android:drawableLeft="@drawable/ic_baseline_title_24"
         android:drawablePadding="20dp"/>
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/descinput"
-        android:layout_below="@id/titleinput"
+        android:id="@+id/desc"
+        android:layout_below="@id/title"
         android:background="#30ffffff"
-        android:hint="拚單描述"
+        android:hint="拚單地點"
         android:textColorHint="@color/white"
         android:textColor="@color/white"
         android:layout_margin="15dp"
@@ -57,11 +57,11 @@
         android:drawableLeft="@drawable/ic_baseline_info_24"
         android:drawablePadding="20dp" />
 
-    <EditText
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/priceinput"
-        android:layout_below="@id/descinput"
+        android:id="@+id/price"
+        android:layout_below="@id/desc"
         android:background="#30ffffff"
         android:hint="商品價格"
         android:textColorHint="@color/white"
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/joinbutton"
-        android:layout_below="@id/priceinput"
+        android:layout_below="@id/price"
         android:text="Join"
         android:backgroundTint="@color/design_default_color_secondary"
         android:layout_centerHorizontal="true"
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/chatbutton"
         android:layout_toRightOf="@id/joinbutton"
-        android:layout_below="@id/priceinput"
+        android:layout_below="@id/price"
         android:text="Chat"
         android:backgroundTint="@color/design_default_color_secondary"
         android:layout_centerHorizontal="true"
