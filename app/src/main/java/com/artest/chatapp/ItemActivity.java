@@ -77,8 +77,8 @@ public class ItemActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     DataSnapshot dataSnapshot = task.getResult();
                     System.out.println("From DB" + task.getResult());
-                    title.setText(dataSnapshot.child("describe").getValue(String.class));
-                    desc.setText(dataSnapshot.child("address").getValue(String.class));
+                    title.setText(dataSnapshot.child("title").getValue(String.class));
+                    desc.setText(dataSnapshot.child("describe").getValue(String.class));
                     price.setText(dataSnapshot.child("price").getValue(Long.class).toString());
                 }
                 else {
@@ -86,9 +86,6 @@ public class ItemActivity extends AppCompatActivity {
                 }
             }
         });
-//        Log.i("item activity", descstr);
-        //System.out.println("OOOOOOO" + descstr);
-//        System.out.println("fromMap" + fromMap.toString());
         chatbutton = (MaterialButton)findViewById(R.id.chatbutton);
         title = (TextView)findViewById(R.id.title);
         desc = (TextView)findViewById(R.id.desc);

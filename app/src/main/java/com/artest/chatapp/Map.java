@@ -134,7 +134,7 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMark
                 Long time = dataSnapshot.child("time").getValue(Long.class);
 
                 LatLng spot = new LatLng(lat, lng);
-                MarkerOptions markerOptions = new MarkerOptions().position(spot).title(title);
+                    MarkerOptions markerOptions = new MarkerOptions().position(spot).title(title);
                 markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
                 Marker marker = mMap.addMarker(markerOptions);
 

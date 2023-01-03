@@ -33,9 +33,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.github.nkzawa.socketio.client.IO;
-import com.github.nkzawa.socketio.client.Socket;
-import com.github.nkzawa.emitter.Emitter;
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,19 +65,20 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import java.util.Date;
 
 public class SharepingActivity extends AppCompatActivity {
-    TextView thetext;
-    EditText titleinput, descinput, priceinput;
-    MaterialButton sendbutton;
+    TextView theText;
+    EditText titleInput, descInput, priceInput;
+    MaterialButton sendButton;
     GoogleMap mMap = Map.mMap;
     Socket mSocket;
     LocationRequest locationRequest;
     static double latitude;
     static double longitude;
-    String titlemsg;
-    String descmsg;
-    String pricemsg;
+    String title;
+    String description;
+    Integer price;
 
     public static final String TAG  = "SharepingActivity";
 
@@ -85,50 +86,64 @@ public class SharepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shareping);
-
-        thetext = findViewById(R.id.thetext);
-        titleinput = findViewById(R.id.titleinput);
-        descinput = findViewById(R.id.descinput);
-        priceinput = findViewById(R.id.priceinput);
-        sendbutton = findViewById(R.id.sendButton);
-
+        theText = findViewById(R.id.thetext);
+        titleInput = findViewById(R.id.titleinput);
+        descInput = findViewById(R.id.descinput);
+        priceInput = findViewById(R.id.priceinput);
+        sendButton = findViewById(R.id.sendButton);
+        titleInput.setText("");
+        descInput.setText("");
+        priceInput.setText("");
+        title = null;
+        description = null;
+        price = null;
 
         locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(5000);
         locationRequest.setFastestInterval(2000);
-        String titlemsg = titleinput.getText().toString().trim();
-        String descmsg = descinput.getText().toString().trim();
-        String pricemsg = priceinput.getText().toString().trim();
 
-
-        //System.out.println("This is datatatat" + sendmess);
+        getCurrentLocation();//get the current location
 
         SocketHandler.setSocket();
         SocketHandler.establishConnection();
         mSocket = SocketHandler.getSocket();
-        System.out.println("This is data" + mSocket);
-        mSocket.emit(titlemsg + " " + descmsg + " " + pricemsg);
 
-        getCurrentLocation();//get the current location
-
-        mSocket.on("pong", new Emitter.Listener() {
+        mSocket.on("connection", new Emitter.Listener() {
             @Override
             public void call(final Object... args) {
-                if (args[0] != null) {
-                    final String counter = (String) args[0];
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.i("socket", "socket connected!");
+                    }
+                });
+            }
+        });
+
+        mSocket.on("create_new_deal", new Emitter.Listener() {
+            @Override
+            public void call(final Object... args) {
+                if(args[0] != null) {
+                    final JSONObject data = (JSONObject) args[0];
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-//                            thetext.set = counter;
-                            System.out.println("This is dataaa" + counter);
+                            try{
+                                Integer status_code = data.getInt("status_code");
+                                String message = data.getString("msg");
+
+                                Log.i("socket", "status_code: "+status_code + ", message: "+message);
+                            }catch(JSONException e){
+
+                            }
                         }
                     });
                 }
             }
         });
 
-        sendbutton.setOnClickListener(new View.OnClickListener() {
+        sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 sendMessage(view);
@@ -140,31 +155,35 @@ public class SharepingActivity extends AppCompatActivity {
     public void sendMessage(View view){
         getCurrentLocation();
         Log.i(TAG, "sendMessage: ");
-        titlemsg = titleinput.getText().toString().trim();
-        descmsg = descinput.getText().toString().trim();
-        pricemsg = priceinput.getText().toString().trim();
+        title = titleInput.getText().toString().trim();
+        description = descInput.getText().toString().trim();
+        price = Integer.parseInt(priceInput.getText().toString());
 
-        System.out.println("Send mess" + titlemsg + descmsg + pricemsg);
-        if(TextUtils.isEmpty(titlemsg)){
-            Log.i(TAG, "sendMessage:2 ");
-            return;
-        }
-        titleinput.setText("");
-        descinput.setText("");
-        priceinput.setText("");
+        if(TextUtils.isEmpty(title)){
+            Toast.makeText(SharepingActivity.this, "Title is empty!", Toast.LENGTH_LONG).show();
+        }else if(TextUtils.isEmpty(description)){
+            Toast.makeText(SharepingActivity.this, "Description is empty!", Toast.LENGTH_LONG).show();
+        }else if(price == null){
+            Toast.makeText(SharepingActivity.this, "Price is empty!", Toast.LENGTH_LONG).show();
+        }else{
+            JSONObject jsonObject = new JSONObject();
+            try {//create send message
+                jsonObject.put("uid", "afejvaeijae3afae-testid");
+                jsonObject.put("address", "test address");
+                jsonObject.put("title", title);
+                jsonObject.put("describe", description);
+                jsonObject.put("price", price);
+                jsonObject.put("lat", latitude);
+                jsonObject.put("lng", longitude);
+                jsonObject.put("time", new Date().getTime());
+                jsonObject.put("num_of_people", 2);
 
-        JSONObject jsonObject = new JSONObject();
-        try {//create send message
-            jsonObject.put("titlemsg", titlemsg);
-            jsonObject.put("descmsg", descmsg);
-            jsonObject.put("pricemsg", pricemsg);
-            jsonObject.put("location lat", latitude);
-            jsonObject.put("location lon", longitude);
-            System.out.println("Json Obj" + jsonObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
+                mSocket.emit("create_new_deal", jsonObject);
+                System.out.println("Json Obj" + jsonObject);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
-        Log.i(TAG, "sendMessage: 1"+ mSocket.emit("chat message", jsonObject));
     }
 
     @Override
@@ -215,26 +234,6 @@ public class SharepingActivity extends AppCompatActivity {
                                     LocationServices.getFusedLocationProviderClient(SharepingActivity.this)
                                             .removeLocationUpdates(this);
 
-                                    if (locationResult != null && locationResult.getLocations().size() >0){
-
-                                        int index = locationResult.getLocations().size() - 1;
-                                        latitude = locationResult.getLocations().get(index).getLatitude();
-                                        longitude = locationResult.getLocations().get(index).getLongitude();
-
-                                        thetext.setText("Latitude: "+ latitude + "\n" + "Longitude: "+ longitude);
-                                        System.out.println("The location is" + latitude + " " + longitude);
-
-                                        LatLng mylocation = new LatLng(SharepingActivity.latitude, SharepingActivity.longitude);
-                                        MarkerOptions markerOptions = new MarkerOptions().position(mylocation).title(titlemsg);
-                                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
-                                        Marker marker = mMap.addMarker(markerOptions);
-                                        System.out.println("Location " + SharepingActivity.latitude + " " + SharepingActivity.longitude);
-//                                        mMap.addMarker(new MarkerOptions()
-//                                                .position(mylocation)
-//                                                .title(titlemsg));
-                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
-
-                                    }
                                 }
                             }, Looper.getMainLooper());
 
