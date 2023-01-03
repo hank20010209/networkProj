@@ -58,7 +58,9 @@ import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -222,12 +224,15 @@ public class SharepingActivity extends AppCompatActivity {
                                         thetext.setText("Latitude: "+ latitude + "\n" + "Longitude: "+ longitude);
                                         System.out.println("The location is" + latitude + " " + longitude);
 
-//                                        LatLng mylocation = new LatLng(SharepingActivity.latitude, SharepingActivity.longitude);
-//                                        System.out.println("Location " + SharepingActivity.latitude + " " + SharepingActivity.longitude);
+                                        LatLng mylocation = new LatLng(SharepingActivity.latitude, SharepingActivity.longitude);
+                                        MarkerOptions markerOptions = new MarkerOptions().position(mylocation).title(titlemsg);
+                                        markerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.bubble));
+                                        Marker marker = mMap.addMarker(markerOptions);
+                                        System.out.println("Location " + SharepingActivity.latitude + " " + SharepingActivity.longitude);
 //                                        mMap.addMarker(new MarkerOptions()
 //                                                .position(mylocation)
 //                                                .title(titlemsg));
-//                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
+                                        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation));
 
                                     }
                                 }
