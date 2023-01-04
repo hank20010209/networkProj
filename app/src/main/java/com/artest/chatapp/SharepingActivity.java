@@ -68,7 +68,6 @@ import com.google.android.material.button.MaterialButton;
 import java.util.Date;
 
 public class SharepingActivity extends AppCompatActivity {
-    TextView theText;
     EditText titleInput, descInput, priceInput;
     MaterialButton sendButton;
     GoogleMap mMap = Map.mMap;
@@ -86,7 +85,6 @@ public class SharepingActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shareping);
-        theText = findViewById(R.id.thetext);
         titleInput = findViewById(R.id.titleinput);
         descInput = findViewById(R.id.descinput);
         priceInput = findViewById(R.id.priceinput);

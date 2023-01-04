@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.util.Log;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.HashMap;
 import java.util.concurrent.FutureTask;
@@ -45,7 +46,7 @@ import org.json.JSONObject;
 import javax.annotation.Nonnull;
 
 public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMarkerClickListener{
-    ImageButton infobutton, friendbutton, sharpingbutton;
+    LinearLayout infobutton, friendbutton, sharpingbutton;
     static GoogleMap mMap;
     static StringBuilder returnObj;
     static int objDone;
@@ -76,9 +77,9 @@ public class Map extends AppCompatActivity implements OnMapReadyCallback, OnMark
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        infobutton = (ImageButton)findViewById(R.id.infobutton);
-        friendbutton = (ImageButton)findViewById(R.id.friendbutton);
-        sharpingbutton = (ImageButton)findViewById(R.id.sharpingbutton);
+        infobutton = (LinearLayout)findViewById(R.id.infobutton);
+        friendbutton = (LinearLayout)findViewById(R.id.friendbutton);
+        sharpingbutton = (LinearLayout)findViewById(R.id.sharpingbutton);
 
         infobutton.setOnClickListener(new View.OnClickListener() {
             @Override
